@@ -107,6 +107,10 @@
 						$payload = http_build_query($payload);
 						$request_headers[] = 'Content-Type: application/x-www-form-urlencoded';
 					}
+
+					// fix for some eshops @see https://ecommerce.shopify.com/c/shopify-apis-and-technology/t/the-requested-url-returned-error-411-length-required-while-activating-charge-470694
+                    $request_headers[] = 'Content-Length: ' . strlen($payload);
+                    $request_headers[] = 'Content-Range: 0-' . strlen($payload);
 				}
 
 				if (!empty($payload)) $default_curl_opts[CURLOPT_POSTFIELDS] = $payload;
